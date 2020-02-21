@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "formql-example": {
@@ -18,7 +18,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
+            "aot": false,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "formql-example"
+    }
+  },
+  "defaultProject": "formql-example",
+  "cli": {
+    "analytics": "1b6716c2-a221-4d46-9f08-8ce18951c4e1"
+  }
 }

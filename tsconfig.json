@@ -17,10 +17,20 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@formql/core": [
+        "packages/core/src/public_api"
+      ],
+      "@formql/editor": [
+        "packages/editor/src/public_api"
+      ],
+      "@formql/material": [
+        "packages/material/src/public_api"
+      ]
+    }
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "enableIvy": false
   }
 }

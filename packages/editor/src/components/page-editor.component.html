@@ -1,0 +1,44 @@
+<div class="fql-editor-wrapper">
+    <div class="fql-editor-header">
+        <div class="fql-editor-title">
+            <h1 class="fql-editor-title-name">Page Editor</h1>
+            <h4 class="fql-editor-subtitle">{{updatedPage?.pageId}}</h4>
+        </div>
+        <div class="fql-editor-buttons">
+            <div (click)="save()" class="fql-logo-save"></div>
+            <div (click)="cancel()" class="fql-logo-close"></div>
+        </div>
+    </div>
+    <div class="tab-wrap">
+        <input class="fql-field-input-tab" type="radio" name="tabs" id="tab1" checked>
+        <div class="fql-tab-label-content" id="tab1-content">
+            <label class="fql-tab-label" for="tab1">Properties</label>
+            <div class="tab-content">
+                <label class="fql-field-label" for="pageId">Page Id</label>
+                <input class="fql-field-input" type="text" id="pageId" [(ngModel)]="updatedPage.pageId" name="pageId" disabled>
+                <div class="fql-properties-div">
+                    <formql-grid-style-editor [header]="'BODY TEMPLATE'" [gridStyle]="updatedPage.template.body"></formql-grid-style-editor>
+                </div>
+
+            </div>
+        </div>
+
+        <input class="fql-field-input-tab" type="radio" name="tabs" id="tab2">
+        <div class="fql-tab-label-content" id="tab2-content">
+            <label class="fql-tab-label" for="tab2">Rules</label>
+            <div class="tab-content">
+
+            </div>
+        </div>
+
+        <input class="fql-field-input-tab" type="radio" name="tabs" id="tab3">
+        <div class="fql-tab-label-content" id="tab3-content">
+            <label class="fql-tab-label" for="tab3">Advanced</label>
+            <div class="tab-content">
+                Comming soon... :-)
+            </div>
+        </div>
+        <div class="slide"></div>
+
+    </div>
+</div>
