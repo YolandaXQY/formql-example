@@ -11,14 +11,15 @@ export class EndDataService implements IFormQLService{
   constructor(private http: HttpClient) {}
     
   getData(dataSource: FormDataSource, ids: Array<string>) {
-      if (!ids)
-          throwError('no ids provided!');
+    //   if (!ids)
+    //       throwError('no ids provided!');
 
-      let item = localStorage.getItem(ids[0]);
-      if (item)
-          return of(JSON.parse(item));
+    //   let item = localStorage.getItem(ids[0]);
+    //   if (item)
+    //       return of(JSON.parse(item));
       
-      return of({});
+    //   return of({});
+    return this.http.get(`assets/api/formData.json`)
   }    
 
   getForm(name: string) {
@@ -26,7 +27,7 @@ export class EndDataService implements IFormQLService{
       if (item)
           return of(JSON.parse(item));
       else
-          return this.http.get(`assets/api/${name}.json`);
+          return this.http.get(`assets/api/contactInfo.json`);
   }
 
   getForms() {

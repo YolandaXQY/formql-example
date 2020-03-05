@@ -1,0 +1,17 @@
+{
+    "contact": {
+        "firstName": "xu",
+        "fullname": "xu 庆玉",
+        "lastName": "庆玉",
+        "email": "1752@qq.com",
+        "mobile": "15684",
+        "addComments": true,
+        "comments": "we",
+        "addressLine1": "32323",
+        "addressLine2": "第三次 ",
+        "addressCity": "南京",
+        "mortgagePeriod": 3,
+        "mortgageInterestRate": 5,
+        "mortgageAmount": 4
+    }
+}
