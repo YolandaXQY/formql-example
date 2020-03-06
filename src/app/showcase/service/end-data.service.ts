@@ -27,7 +27,7 @@ export class EndDataService implements IFormQLService{
       if (item)
           return of(JSON.parse(item));
       else
-          return this.http.get(`assets/api/contactInfo.json`);
+          return this.http.get(`assets/api/mortgageCalculator.json`);
   }
 
   getForms() {

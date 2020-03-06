@@ -234,7 +234,16 @@ export class HelperService {
             const maskTrimmed = mask.trim().substring(1).slice(0, -1).replace('\\\\', '\\');
             const arry = maskTrimmed.split(',');
             arry.forEach(item => {
-                result.push(item.trim().replace(/\"/g, '').replace(/\'/g, ''));
+                item = item.trim();
+                let evalueValue = item;
+                try {
+                    evalueValue = eval(item);
+                    
+                } catch(err) {
+                    // console.log(err);
+                }
+                result.push(evalueValue || '');
+                
             });
         }
         return result;

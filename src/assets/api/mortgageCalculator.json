@@ -88,7 +88,7 @@
             }, {
                 "schema": "contact.mobile",
                 "label": "Mobile3",
-                "componentName": "FormQLMatFormFieldComponent",
+                "componentName": "FormQLInputComponent",
                 "type": "text",
                 "order": 1,
                 "position": {
@@ -99,7 +99,8 @@
                 "componentId": "bb22abb9-0fd0-fa7b-ff0a-50e2c2031970",
                 "conditions": {},
                 "rules": {},
-                "value": null
+                "value": null,
+                "textMask": "[(, /[1-9]/, /\\d/, /\\d/, \")\", \" \", /\\d/, /\\d/, /\\d/, -, /\\d/, /\\d/, /\\d/, /\\d/]"
             }, {
                 "schema": "contact.email",
                 "label": "Email",
@@ -315,7 +316,7 @@
                 "schema": "contact.mortgageAmount",
                 "type": "number",
                 "textMask": {
-                    "prefix": "£",
+                    "prefix": "￥",
                     "suffix": "",
                     "includeThousandsSeparator": true,
                     "thousandsSeparatorSymbol": ",",

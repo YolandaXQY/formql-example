@@ -183,6 +183,11 @@ export class FormService {
         return formState;
     }
 
+    /**
+     * 根据值规则进行初始值计算
+     * @param formState 
+     * @param reRun 
+     */
     resolveConditions(formState: FormState, reRun = false): FormState {
         let recalculate = false;
         formState.components.forEach(component => {
