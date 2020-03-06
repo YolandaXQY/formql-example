@@ -14,7 +14,7 @@
             "body": {
                 "gridTemplateColumns": "1fr",
                 "gridTemplateRows": null,
-                "gridTemplateAreas": "\"ID1_1\" \"ID1_2\""
+                "gridTemplateAreas": "\"ID1_1\" \"ID1_2\" \"ID1_3\""
             },
             "reRender": false
         },
@@ -152,7 +152,7 @@
                 "type": "text",
                 "order": 1,
                 "position": {
-                    "id": "ID1_3",
+                    "id": "ID1_1",
                     "index": 0,
                     "type": 2
                 },
@@ -161,11 +161,14 @@
                 "value": null,
                 "style": {
                     "float": "right"
+                },
+                "action": {
+                    "key": "save"
                 }
             }],
             "structure": "12",
             "position": {
-                "id": "ID2_1",
+                "id": "ID1_3",
                 "index": 0
             },
             "sectionId": "3d3fcbe3-a029-ca5e-4791-9666155fff0f",
@@ -180,7 +183,7 @@
                 "body": {
                     "gridTemplateColumns": "1fr",
                     "gridTemplateRows": "1fr",
-                    "gridTemplateAreas": "\"ID1_3\""
+                    "gridTemplateAreas": "\"ID1_1\""
                 },
                 "reRender": false
             },
