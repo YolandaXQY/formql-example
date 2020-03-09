@@ -1,7 +1,7 @@
 import { Component, Input, forwardRef, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, Validators, FormControl } from '@angular/forms';
-import { FormComponent, FormValidator } from '@formql/core';
-import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, Validators, FormControl, ValidatorFn } from '@angular/forms';
+import { FormComponent, FormValidator, HelperService } from '@formql/core';
+import { createNumberMask, createAutoCorrectedDatePipe } from 'text-mask-addons';
 
 @Component({
     selector: 'formql-mat-form-field',
@@ -16,6 +16,12 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
       [required]="field.rules?.required?.value">
       <mat-error *ngIf="!formControl.valid && formControl.touched">
         <span *ngIf="formControl.errors?.required">{{ field.rules?.required?.errorMessage }}</span>
+        <span *ngIf="formControl.errors?.email">{{ field.rules?.email?.errorMessage }}</span>
+        <span *ngIf="formControl.errors?.max">{{ field.rules?.max?.errorMessage }}</span>
+        <span *ngIf="formControl.errors?.min">{{ field.rules?.min?.errorMessage }}</span>
+        <span *ngIf="formControl.errors?.maxlength">{{ field.rules?.maxLength?.errorMessage }}</span>
+        <span *ngIf="formControl.errors?.minlength">{{ field.rules?.minLength?.errorMessage }}</span>
+        <span *ngIf="formControl.errors?.pattern">{{ field.rules?.pattern?.errorMessage }}</span>
       </mat-error>
     </mat-form-field>
   </div>`,
@@ -38,9 +44,49 @@ export class FormQLMatFormFieldComponent implements OnInit, ControlValueAccessor
 
     static validators = [
         <FormValidator>{
-            name: 'Required',
-            validator: Validators.required,
-            key: 'required'
+            name: 'required',
+            key: 'required',
+            validator: Validators.required
+        },
+        <FormValidator>{
+            name: 'email',
+            key: 'email',
+            validator: Validators.email
+        },
+        <FormValidator>{
+            name: 'max',
+            key: 'max',
+            validator: function (val: any) {
+                return Validators.max(Number(val))
+            }
+        },
+        <FormValidator>{
+            name: 'min',
+            key: 'min',
+            validator: function(val: any) {
+                return Validators.min(Number(val))
+            }
+        },
+        <FormValidator>{
+            name: 'minLength',
+            key: 'minLength',
+            validator: function (val: any) {
+                return Validators.minLength(Number(val));
+            }
+        },
+        <FormValidator>{
+            name: 'maxLength',
+            key: 'maxLength',
+            validator: function (val: any) {
+                return Validators.maxLength(Number(val));
+            }
+        },
+        <FormValidator>{
+            name: 'pattern',
+            key: 'pattern',
+            validator: function (val: any) {
+                return Validators.pattern(val);
+            }
         }
     ];
 
@@ -55,8 +101,23 @@ export class FormQLMatFormFieldComponent implements OnInit, ControlValueAccessor
     constructor() {}
 
     ngOnInit(): void {
-        if (this.field && this.field.textMask)
-            this.currencyMask = createNumberMask(this.field.textMask);
+        // if (this.field && this.field.textMask)
+        //     this.currencyMask = createNumberMask(this.field.textMask);
+        if (this.field && this.field.textMask && this.field.type) {
+            switch (this.field.type) {
+                case 'number':
+                    this.currencyMask = createNumberMask(this.field.textMask);
+                    break;
+
+                case 'date':
+                    this.currencyMask = createAutoCorrectedDatePipe(this.field.textMask);
+                    break;
+
+                case 'text':
+                    this.currencyMask = HelperService.maskToArray(this.field.textMask);
+                    break;
+            }
+        }
     }
 
     get value(): any {

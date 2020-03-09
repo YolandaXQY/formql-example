@@ -25,9 +25,9 @@ export class HelperService {
                 return response;
 
             response = {...this.evaluate(condition, data)};
-
-            if (response.value !== true)
-                response.value = false;
+            // 注释掉，为了获取规则设定的值
+            // if (response.value !== true)
+            //     response.value = false;
         }
         return response;
     }
@@ -122,11 +122,28 @@ export class HelperService {
             const FormValidators = <Array<FormValidator>>type['validators'];
             Object.keys(component.rules).forEach(key => {
                 const item = component.rules[key];
-                if (item.value && item.key !== 'readonly' && item.key !== 'hidden' && item.key !== 'value') {
-                    const validator = FormValidators.find(x => x.key === item.key);
-                    if (validator && validator.validator)
-                        validators.push(validator.validator);
-                } else if (item.value && item.key === 'readonly' && control.enabled)
+                // 因为value之前的定义是boolean，但是现在可以是多种，对于checkbox来说都是true
+                let caluateValue;
+                if (component.type === 'checkbox') {
+                    caluateValue = true;
+                } else {
+                    caluateValue = Number.isNaN(item.value) ? true : item.value ? true: false
+                }
+                if (caluateValue && item.key !== 'readonly' && item.key !== 'hidden' && item.key !== 'value') {
+                    let validator = FormValidators.find(x => x.key === item.key);
+                   
+                    
+                    if (validator && validator.validator) {
+                        // 如果是boolean值是，Validator函数不需要传值
+                        if (typeof item.value !== 'boolean') {
+                            validators.push(validator.validator(item.value));
+                        } else {
+                            validators.push(validator.validator);
+                        }
+                         
+                    }
+                        
+                } else if (caluateValue && item.key === 'readonly' && control.enabled)
                     control.disable();
             });
             if (control.disabled &&
@@ -136,7 +153,6 @@ export class HelperService {
         }
         if (validators.length > 0)
             control.setValidators(validators);
-
         return control;
     }
 

@@ -7,13 +7,14 @@ export declare interface FormRules {
 export interface FormRule {
     key: string;
     condition: string;
-    value: boolean;
+    value: boolean | any;
     errorMessage: string;
 }
 
 export interface FormValidator {
     name: string;
     key: string;
-    validator: ValidatorFn;
+    // 多加了一种类型
+    validator: ValidatorFn | (() => ValidatorFn);
     parameters: any;
 }

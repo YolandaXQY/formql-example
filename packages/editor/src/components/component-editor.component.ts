@@ -62,6 +62,8 @@ export class ComponentEditorComponent implements OnInit {
 
     getEvaluatedCondition(condition) {
         const response = HelperService.evaluateCondition(condition, this.data);
+        // 由于注释了 helpService.evaluateCondition 函数中对于value的处理方法，这边做处理。
+        response.value = response.value ? true : false;
         return response.value;
     }
 

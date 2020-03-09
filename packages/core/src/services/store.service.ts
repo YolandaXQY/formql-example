@@ -56,6 +56,9 @@ export class StoreService implements OnDestroy {
                 const reactiveFormStructure = HelperService.createReactiveFormStructure(this.formState.form);
                 this.formControls = reactiveFormStructure.formControls;
                 this.formState.reactiveForm =  this.formBuilder.group(reactiveFormStructure.pageGroup);
+                // 增加校验
+                this.formControls = HelperService.resetValidators(this.formState.components, this.formControls, this.componentFactoryResolver);
+                // this.validateForm();
                 this.formState$.next(this.formState);
             }
             this.data$.next(response.data);

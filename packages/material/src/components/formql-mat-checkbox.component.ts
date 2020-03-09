@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup, Validators, FormControl } from '@angular/forms';
 import { FormComponent, FormValidator } from '@formql/core';
 
@@ -7,6 +7,7 @@ import { FormComponent, FormValidator } from '@formql/core';
     template: `<div *ngIf="formControl!=null">
   <mat-checkbox [id]="field.componentId" [formControl]="formControl">{{field.label}}</mat-checkbox>
   <mat-error *ngIf="!formControl.valid && formControl.touched">
+  <span *ngIf="formControl.errors?.required">{{ field.rules?.requiredTrue?.errorMessage }}</span>
    </mat-error>
 </div>`,
     providers: [
@@ -30,6 +31,11 @@ export class FormQLMatCheckboxComponent implements ControlValueAccessor {
             name: 'Required',
             validator: Validators.required,
             key: 'required'
+        },
+        <FormValidator>{
+            name: 'requiredTrue',
+            validator: Validators.requiredTrue,
+            key: 'requiredTrue'
         }
     ];
 
