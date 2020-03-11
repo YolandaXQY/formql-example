@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ComponentFactoryResolver, ViewContainerRef,
-    ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+    ViewChild, OnDestroy, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { FormComponent } from '../models/form-component.model';
 import { InternalEventHandlerService } from '../services/internal-event-handler.service';
 import { InternalEventType } from '../models/internal-event.model';

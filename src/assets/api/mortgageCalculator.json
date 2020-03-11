@@ -166,6 +166,46 @@
                             }
                         },
                         {
+                            "schema":"contact.goodCategory",
+                            "label": "商品分类",
+                            "componentName": "FormQLMatSelectComponent",
+                            "order":1,
+                            "position":{
+                                "id": "ID1_3",
+                                "type": 2
+                            },
+                            "rules": {},
+                            "configuration": [
+                                {
+                                  "name": "应用",
+                                  "value": "app"
+                                },
+                                {
+                                  "name": "服务",
+                                  "value": "service"
+                                },
+                                {
+                                  "name": "套装软件",
+                                  "value": "package"
+                                }
+                              ]
+                        },
+                        {
+                            "schema":"contact.goodCode",
+                            "label": "商品名称",
+                            "componentName": "FormQLMatSelectComponent",
+                            "order":1,
+                            "type": "select",
+                            "position":{
+                                "id": "ID2_3",
+                                "type": 2
+                            },
+                            "rules": {},
+                            "dataSource": "api",
+                            "apiAddress": "https://www.studyinghome.com/mock/5e67336b1328351ac71c20cb/example/goodcategory/${contact.goodCategory}/list",
+                            "configuration": []
+                        },
+                        {
                             "schema": "contact.isreaded",
                             "label": "我已阅读规则",
                             "componentName": "FormQLMatCheckboxComponent",
@@ -180,6 +220,24 @@
                                     "key": "requiredTrue",
                                     "condition": " ",
                                     "errorMessage": "请您先阅读规则"
+                                }
+                            }
+                        },
+                        {
+                            "schema":"contact.goodCount",
+                            "label": "商品数量",
+                            "componentName":"FormQLMatFormFieldComponent",
+                            "type": "number",
+                            "order":2,
+                            "position": {
+                                "id":"ID3_3",
+                                "type": 2
+                            },
+                            "rules": {
+                                "api": {
+                                    "key":"api",
+                                    "condition":"https://www.studyinghome.com/mock/5e67336b1328351ac71c20cb/example/goodCode/${contact.goodCode}/stock",
+                                    "errorMessage": "此商品库存仅有200"
                                 }
                             }
                         }
@@ -205,10 +263,10 @@
                         },
                         "body": {
                             "hidden": false,
-                            "gridTemplateColumns": "1fr 1fr",
+                            "gridTemplateColumns": "1fr 1fr 1fr",
                             "style": null,
                             "gridTemplateRows": "1fr 1fr",
-                            "gridTemplateAreas": "\"ID1_1 ID1_2\" \"ID2_1 ID2_2\" \"ID3_1 ID3_2\""
+                            "gridTemplateAreas": "\"ID1_1 ID1_2 ID1_3\" \"ID2_1 ID2_2 ID2_3\" \"ID3_1 ID3_2 ID3_3\""
                         },
                         "reRender": false
                     },
@@ -354,6 +412,7 @@
                                 "id": "ID1_2",
                                 "index": 1,
                                 "type": 2
+
                             },
                             "rules": {
                                 "value": {

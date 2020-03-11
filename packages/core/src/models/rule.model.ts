@@ -9,6 +9,7 @@ export interface FormRule {
     condition: string;
     value: boolean | any;
     errorMessage: string;
+    dataSource: string;
 }
 
 export interface FormValidator {

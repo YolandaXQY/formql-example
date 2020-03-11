@@ -6,6 +6,8 @@ import { FormComponent } from '../models/form-component.model';
 import { UUID } from 'angular2-uuid';
 import { HelperService } from './helper.service';
 import { IFormQLService } from '../interfaces/formql-service';
+import { HttpClient } from '@angular/common/http';
+import { Validators } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +17,9 @@ export class FormService {
     private service: IFormQLService;
 
     constructor(
-        @Inject('FormQLService') srv
-        ) {
+        @Inject('FormQLService') srv,
+        private http: HttpClient
+    ) {
         this.service = srv;
     }
 
@@ -24,10 +27,10 @@ export class FormService {
     getFormAndData(formName: string, ids: Array<string>): Observable<FormState> {
         if (ids)
             return this.service.getForm(formName).pipe(
-                    map(response => <FormWindow>response),
-                    concatMap(model =>
-                        this.service.getData(model.dataSource, ids).pipe(
-                            map(data => this.populateComponents(model, data))
+                map(response => <FormWindow>response),
+                concatMap(model =>
+                    this.service.getData(model.dataSource, ids).pipe(
+                        map(data => this.populateComponents(model, data))
                     )));
         else
             return this.service.getForm(formName).pipe(
@@ -38,7 +41,7 @@ export class FormService {
     populateComponents(form: FormWindow, data: any): FormState {
         let formState = <FormState>{
             components: new Array<FormComponent<any>>(),
-            data: {...data},
+            data: { ...data },
             form: form
         };
 
@@ -196,10 +199,16 @@ export class FormService {
                     const property = component.rules[key];
                     if (property.condition) {
                         let evaluatedValue: any;
-                        if (key === 'value')
+                        if (key === 'value') {
                             evaluatedValue = HelperService.evaluateValue(property.condition, formState.data);
-                        else
+                        } else if (key === 'api') {
+                            evaluatedValue = { value: null, error: null};
+                            this.getDataFromAPI(property.condition, formState.data).then(res => {
+                                                              
+                            });
+                        } else {
                             evaluatedValue = HelperService.evaluateCondition(property.condition, formState.data);
+                        }
 
                         if (!evaluatedValue.error && key === 'value') {
                             const value = HelperService.resolveType(evaluatedValue.value, component.type);
@@ -236,7 +245,75 @@ export class FormService {
             if (recalculate && !reRun)
                 formState = this.resolveConditions(formState, true);
         }
+        const configurationPromiseArr = [];
+        formState.components.forEach(component => {
+            if (component.type === 'select' && component.dataSource === 'api') {
+                configurationPromiseArr.push(this.getComponentConfiguration(component, formState.data));
+            }
+        });
+        Promise.all(configurationPromiseArr).then(data => {
+            data.forEach(c => {
+                let item = formState.components.find(d => d.componentId === c.componentId);
+                if (item) {
+                    item = Object.assign(item, c);
+                }
+            })
+        })
         return formState;
+    }
+    
+    /**
+     * 当formComponent的configration的是需要根据某个值动态加载的，需要调用这个函数
+     * @param component 
+     * @param data 
+     */
+    getComponentConfiguration(component: FormComponent<any>, data: any): Promise<FormComponent<any>> {
+        return new Promise((resolve, reject) => {
+            const reg = new RegExp(/\${.+}/g);
+            const matchedStr = component.apiAddress.match(reg);
+            const schema = matchedStr.length > 0 ? matchedStr[0].slice(2, -1) : null;
+            if (schema !== null) {
+                const value = HelperService.evaluateValue(schema, data).value;
+                if (value) {
+                    const apiAddr = component.apiAddress.replace(reg, value);
+                    this.http.get(apiAddr).subscribe(res => {
+                        component.configuration = res;
+                    });
+                    resolve(component);
+                } else {
+                    resolve(component);
+                }
+
+            } else {
+                resolve(component);
+            }
+        })
+    }
+
+    /**
+     * 这个函数的目的: 校验需要走后端需要调用的，没有得到真正的使用。
+     * @param apiAddress 
+     * @param data 
+     */
+    getDataFromAPI(apiAddress: string, data: any): Promise<any> {
+        return new Promise(resolve => {
+            const reg = new RegExp(/\${.+}/g);
+            const matchedStr = apiAddress.match(reg);
+            const schema = matchedStr.length > 0 ? matchedStr[0].slice(2, -1) : null;
+            if (schema !== null) {
+                const value = HelperService.evaluateValue(schema, data).value;
+                if (value) {
+                    const apiAddr = apiAddress.replace(reg, value);
+                    this.http.get(apiAddr).subscribe(res => {
+                        resolve(res);
+                    });
+                } else {
+                    resolve(null)
+                }
+            } else {
+                resolve(null)
+            }
+        })
     }
 }
 

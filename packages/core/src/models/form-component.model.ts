@@ -20,6 +20,10 @@ export interface FormComponent<T> {
 
     style: any;
     configuration: any;
+    // 数据源是什么
+    dataSource: string;
+    // api的地址
+    apiAddress: string;
 }
 
 export interface ComponentControl {
