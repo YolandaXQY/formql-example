@@ -240,6 +240,40 @@
                                     "errorMessage": "此商品库存仅有200"
                                 }
                             }
+                        },
+                        {
+                            "schema": "contact.birthday",
+                            "label": "生日",
+                            "componentName": "FormQLMatDatepickerComponent",
+                            "type": "date",
+                            "order": 3,
+                            "position": {
+                                "id": "ID1_4",
+                                "type": 2
+                            }
+                        },
+                        {
+                            "schema": "contact.sex",
+                            "label": "性别",
+                            "componentName": "FormqlRadioGroupComponent",
+                            "position": {
+                                "id": "ID2_4",
+                                "type": 2
+                            },
+                            "configuration": [
+                                {
+                                    "name": "男",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "女",
+                                    "value": "2"
+                                },
+                                {
+                                    "name": "未知",
+                                    "value": "3"
+                                }
+                            ]
                         }
                     ],
                     "position": {
@@ -263,10 +297,10 @@
                         },
                         "body": {
                             "hidden": false,
-                            "gridTemplateColumns": "1fr 1fr 1fr",
+                            "gridTemplateColumns": "1fr 1fr 1fr 1fr",
                             "style": null,
                             "gridTemplateRows": "1fr 1fr",
-                            "gridTemplateAreas": "\"ID1_1 ID1_2 ID1_3\" \"ID2_1 ID2_2 ID2_3\" \"ID3_1 ID3_2 ID3_3\""
+                            "gridTemplateAreas": "\"ID1_1 ID1_2 ID1_3 ID1_4\" \"ID2_1 ID2_2 ID2_3 ID2_4\" \"ID3_1 ID3_2 ID3_3 ID3_4\""
                         },
                         "reRender": false
                     },

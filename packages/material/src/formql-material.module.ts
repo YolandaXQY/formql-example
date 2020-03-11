@@ -11,6 +11,7 @@ import { FormQLMatDatepickerComponent } from './components/formql-mat-datepicker
 import { FormQLMatButtonComponent } from './components/formql-mat-button.component';
 import { FormQLInternalMaterialModule } from './formql-internal-material';
 import { FormQLMatSelectComponent } from './components/formql-mat-select.component';
+import { FormqlRadioGroupComponent } from './components/formql-radio-group.component';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { FormQLMatSelectComponent } from './components/formql-mat-select.compone
         FormQLMatCheckboxComponent,
         FormQLMatDatepickerComponent,
         FormQLMatButtonComponent,
-        FormQLMatSelectComponent
+        FormQLMatSelectComponent,
+        FormqlRadioGroupComponent
     ],
     exports: [
         FormQLInternalMaterialModule
@@ -38,7 +40,8 @@ import { FormQLMatSelectComponent } from './components/formql-mat-select.compone
         FormQLMatCheckboxComponent,
         FormQLMatDatepickerComponent,
         FormQLMatButtonComponent,
-        FormQLMatSelectComponent
+        FormQLMatSelectComponent,
+        FormqlRadioGroupComponent
     ]
 })
 export class FormQLMaterialModule { }

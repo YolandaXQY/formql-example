@@ -24,7 +24,7 @@ export class HelperService {
             if (!data)
                 return response;
 
-            response = {...this.evaluate(condition, data)};
+            response = { ...this.evaluate(condition, data) };
             // 注释掉，为了获取规则设定的值
             // if (response.value !== true)
             //     response.value = false;
@@ -40,19 +40,21 @@ export class HelperService {
         if (!data)
             return response;
 
-        response = {...this.evaluate(path, data)};
-
-        if (Number.isNaN(response.value) || response.value === Infinity)
-            response.value = null;
-        else
-            response.value = this.deepCopy(response.value);
-
+        response = { ...this.evaluate(path, data) };
+        if (typeof response.value === 'object' && Object.prototype.toString.call(response.value) === '[object Date]') {
+            response.value = response.value.toString();
+        } else {
+            if (Number.isNaN(response.value) || response.value === Infinity)
+                response.value = null;
+            else
+                response.value = this.deepCopy(response.value);
+        }
+        console.log(data);
         return response;
     }
 
     private static evaluate(path: string, data: any): EvalResponse {
         'use strict';
-
         const response = <EvalResponse>{ value: null, error: null };
 
         const props = Object.keys(data);
@@ -97,7 +99,15 @@ export class HelperService {
                     value = value.replace(/[^\d\.]/g, '');
 
                 return Number(value);
-
+            case 'date':
+                if (value) {
+                    const result: any = new Date(value).toString();
+                    if (result === 'Invalid Date') {
+                        return new Date();
+                    }
+                    return new Date(result);
+                }
+                return new Date();
             default:
                 return value;
         }
@@ -127,7 +137,7 @@ export class HelperService {
                 if (component.type === 'checkbox') {
                     caluateValue = true;
                 } else {
-                    caluateValue = Number.isNaN(item.value) ? true : item.value ? true: false
+                    caluateValue = Number.isNaN(item.value) ? true : item.value ? true : false
                 }
                 if (caluateValue && item.key !== 'readonly' && item.key !== 'hidden' && item.key !== 'value') {
                     let validator = FormValidators.find(x => x.key === item.key);

@@ -1,12 +1,10 @@
 import { Component, OnInit, Input, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { OptionValue, FormComponent } from '@formql/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'formql-mat-form-select',
   template: `
-  <div *ngFor="let a of list">{{list.name}}</div>
   <div *ngIf="formControl!=null">    
     <mat-form-field style="width:100%">
       <mat-label>{{field.label}}</mat-label>
